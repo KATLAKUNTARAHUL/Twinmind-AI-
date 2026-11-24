@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: twinmind-backend
+    env: docker
+    region: ohio
+    plan: free
+    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: TWINMIND_DATABASE_PATH
+        value: /data/twinmind.db
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_PRO_PRICE_ID
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: TWINMIND_LLM_MODEL
+        value: gpt-4o
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: TWINMIND_ALLOW_RESTRICTED_CODE
+        value: "false"
+    disk:
+      name: twinmind-sqlite-data
+      mountPath: /data
+      sizeGB: 1
